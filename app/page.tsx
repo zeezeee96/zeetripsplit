@@ -1,11 +1,10 @@
 "use client";
-import { useState } from "react";
-import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 
-type Trip = {
-  id: number;
-  name: string;
-};
+import { useState } from "react";
+import Link from "next/link";
+import { v4 as uuidv4 } from "uuid";
+import { useLocalStorage } from "@/src/hooks/useLocalStorage";
+import { Trip } from "@/src/types/trips";
 
 export default function Home() {
   const [tripName, setTripName] = useState("");
@@ -15,8 +14,10 @@ export default function Home() {
     if (!tripName.trim()) return;
 
     const newTrip: Trip = {
-      id: Date.now(),
+      id: uuidv4(),
       name: tripName,
+      people: [],
+      expenses: [],
     };
 
     setTrips((prev) => [newTrip, ...prev]);
@@ -63,9 +64,13 @@ export default function Home() {
             >
               <span className="text-gray-800 font-medium">{trip.name}</span>
 
-              <button className="text-sm text-blue-500 hover:underline cursor-pointer">
+              {/* ✅ Navigation FIX */}
+              <Link
+                href={`/trip/${trip.id}`}
+                className="text-sm text-blue-500 hover:underline"
+              >
                 Open →
-              </button>
+              </Link>
             </div>
           ))}
         </div>
