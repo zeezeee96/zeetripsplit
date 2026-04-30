@@ -1,6 +1,6 @@
 "use client";
-
 import { useState } from "react";
+import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 
 type Trip = {
   id: number;
@@ -9,7 +9,7 @@ type Trip = {
 
 export default function Home() {
   const [tripName, setTripName] = useState("");
-  const [trips, setTrips] = useState<Trip[]>([]);
+  const [trips, setTrips] = useLocalStorage<Trip[]>("trips", []);
 
   const addTrip = () => {
     if (!tripName.trim()) return;
@@ -19,7 +19,7 @@ export default function Home() {
       name: tripName,
     };
 
-    setTrips([newTrip, ...trips]);
+    setTrips((prev) => [newTrip, ...prev]);
     setTripName("");
   };
 
@@ -42,7 +42,8 @@ export default function Home() {
           />
           <button
             onClick={addTrip}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded transition"
+            disabled={!tripName.trim()}
+            className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white px-4 rounded transition"
           >
             Add
           </button>
@@ -62,7 +63,7 @@ export default function Home() {
             >
               <span className="text-gray-800 font-medium">{trip.name}</span>
 
-              <button className="text-sm text-blue-500 hover:underline">
+              <button className="text-sm text-blue-500 hover:underline cursor-pointer">
                 Open →
               </button>
             </div>
