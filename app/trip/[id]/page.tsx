@@ -5,6 +5,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 import { Expense, Person, Trip } from "@/src/types/trips";
+import Link from "next/link";
 
 export default function TripDetail() {
   const params = useParams();
@@ -183,6 +184,14 @@ export default function TripDetail() {
               })}
             </div>
           )}
+        </div>
+        <div className="pt-2 text-center">
+          <Link
+            href={`/trip/${trip.id}/split`}
+            className="text-sm text-blue-500 hover:underline"
+          >
+            View Split →
+          </Link>
         </div>
       </div>
 
