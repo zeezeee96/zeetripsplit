@@ -12,14 +12,12 @@ export default function Home() {
 
   const addTrip = () => {
     if (!tripName.trim()) return;
-
     const newTrip: Trip = {
       id: uuidv4(),
       name: tripName,
       people: [],
       expenses: [],
     };
-
     setTrips((prev) => [newTrip, ...prev]);
     setTripName("");
   };
